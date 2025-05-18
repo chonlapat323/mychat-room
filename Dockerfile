@@ -1,10 +1,17 @@
-FROM golang:1.24
+FROM golang:1.24-alpine AS builder
 
 WORKDIR /app
-COPY . .
+COPY go.mod go.sum ./
+RUN go mod download
 
-RUN go build -o mychat-room .
+COPY . .
+RUN go build -o main .
+
+
+FROM alpine:latest
+
+WORKDIR /app
+COPY --from=builder /app/main .
 
 EXPOSE 5000
-
-CMD ["./mychat-room"]
+CMD ["./main"]
