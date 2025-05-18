@@ -20,15 +20,15 @@ func JWTAuthMiddleware(next http.Handler) http.Handler {
 		tokenString := cookie.Value
 
 		// ✅ ตรวจว่าถูก blacklist หรือไม่
-		isBlacklisted, err := utils.IsTokenBlacklisted(tokenString)
-		if err != nil {
-			http.Error(w, "Server error", http.StatusInternalServerError)
-			return
-		}
-		if isBlacklisted {
-			http.Error(w, "Token revoked", http.StatusUnauthorized)
-			return
-		}
+		// isBlacklisted, err := utils.IsTokenBlacklisted(tokenString)
+		// if err != nil {
+		// 	http.Error(w, "Server error", http.StatusInternalServerError)
+		// 	return
+		// }
+		// if isBlacklisted {
+		// 	http.Error(w, "Token revoked", http.StatusUnauthorized)
+		// 	return
+		// }
 
 		claims, err := utils.ValidateToken(tokenString)
 		if err != nil {
